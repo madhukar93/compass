@@ -1,0 +1,24 @@
+version: '3'
+services:
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - '9090:9090'
+    container_name: prometheus
+    restart: always
+    volumes:
+      - './prometheus.yml:/etc/prometheus/prometheus.yml'
+      - ./data/prometheus:/data
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - '3000:3000'
+    container_name: grafana
+    restart: always
+    depends_on:
+      - prometheus
+    volumes:
+      - './grafana.ini:/etc/grafana/grafana.ini'
+      - ./grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
