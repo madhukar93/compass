@@ -8,7 +8,7 @@ brew install poetry
 poetry install
 ```
 
-add token
+Manual
 ```
 Add Token and Org in compass/contrants.py
 ```
