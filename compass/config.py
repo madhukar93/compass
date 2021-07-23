@@ -4,6 +4,7 @@ import os
 import sys
 import logging
 
+# for Testing. will be removed
 # os.environ['GITHUB_TOKEN'] = '...GITHUB_API_ACCESS_TOKEN...'
 # os.environ['GITHUB_ORG_NAME'] = '...eg:bukukasio...'
 

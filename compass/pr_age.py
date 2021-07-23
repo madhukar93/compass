@@ -29,6 +29,7 @@ def calc_pr_age(created_at, state, closed_at):
 
 def make_metric(repo, pr):
     "with some labels, set pr's age in gauge metric"
+
     pr_age = calc_pr_age(pr.created_at, pr.state, pr.closed_at)
     pr_gauge.labels(repo.name, pr.id, pr.state).set(pr_age)
 
