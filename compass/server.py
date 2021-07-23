@@ -1,13 +1,16 @@
+"Compass Server exposing metrics"
+
+import pr_age
+import config as c
+import logging
 from prometheus_client import make_wsgi_app
 from wsgiref.simple_server import make_server
-from pr_age import Pr_Age
 
 if __name__ == "__main__":
     app = make_wsgi_app()
 
-    age_pr = Pr_Age()
-    age_pr.run()
+    pr_age.run(c.GITHUB_TOKEN, c.GITHUB_ORG_NAME)
 
-    print("starting server, PORT: 8000")
+    logging.info("starting server, PORT: 8000")
     httpd = make_server('', 8000, app)
     httpd.serve_forever()
