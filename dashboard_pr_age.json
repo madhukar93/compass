@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 3,
-  "iteration": 1627040650165,
+  "id": 2,
+  "iteration": 1627273309677,
   "links": [],
   "panels": [
     {
@@ -70,7 +70,7 @@
           "exemplar": true,
           "expr": "count(pr_age{repo_name=~\"$repository\", state=\"$state\"}) by (repo_name)",
           "interval": "",
-          "legendFormat": "repository {{ repo_name }}",
+          "legendFormat": "{{ repo_name }}",
           "refId": "A"
         }
       ],
@@ -195,7 +195,7 @@
           "expr": "avg(pr_age{repo_name=~\"$repository\"}) by (repo_name)",
           "format": "time_series",
           "interval": "",
-          "legendFormat": "repository - {{ repo_name }}",
+          "legendFormat": "{{ repo_name }}",
           "refId": "A"
         }
       ],
@@ -239,7 +239,7 @@
       {
         "allValue": "*",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "open",
           "value": "open"
         },
@@ -266,12 +266,12 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "PR Dashboard Copy",
-  "uid": "pYtGF5Z7k",
+  "uid": "dKfRD-Z7z",
   "version": 1
 }
