@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 2,
-  "iteration": 1627273309677,
+  "id": 3,
+  "iteration": 1627292749566,
   "links": [],
   "panels": [
     {
@@ -68,7 +68,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "count(pr_age{repo_name=~\"$repository\", state=\"$state\"}) by (repo_name)",
+          "expr": "count(pr_age{repo_name=~\"$repository\"}) by (repo_name)",
           "interval": "",
           "legendFormat": "{{ repo_name }}",
           "refId": "A"
@@ -168,7 +168,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "s"
         },
         "overrides": []
       },
@@ -212,7 +213,7 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
@@ -240,8 +241,8 @@
         "allValue": "*",
         "current": {
           "selected": false,
-          "text": "open",
-          "value": "open"
+          "text": "All",
+          "value": "$__all"
         },
         "datasource": null,
         "definition": "label_values(state)",
@@ -271,7 +272,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "PR Dashboard Copy",
-  "uid": "dKfRD-Z7z",
-  "version": 1
+  "title": "PR Dashboard",
+  "uid": "FAuHu-Wnz",
+  "version": 2
 }
