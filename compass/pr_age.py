@@ -7,15 +7,14 @@ from github import Github
 from prometheus_client import Gauge
 
 def get_pr_age_obj():
-    "create and return Gauge object"
+    "return Gauge object"
     return Gauge('pr_age', 'PR Age matrics', ['repo_name', 'pr_id'])
 
 
 pr_gauge = get_pr_age_obj()
 
-# def calc_pr_age(created_at, state, closed_at):
 def calc_pr_age(created_at):
-    "calculates Age of open/closed PR - Currently wrt Minutes"
+    "calculates Age of open/closed PR - Currently wrt Seconds"
 
     now = datetime.datetime.now()
     pr_age = now - created_at
