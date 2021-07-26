@@ -2,6 +2,7 @@
 
 import os
 import datetime
+import config as c
 from github import Github
 from prometheus_client import Gauge
 
@@ -33,11 +34,11 @@ def make_metric(repo, pr):
     pr_age = calc_pr_age(pr.created_at, pr.state, pr.closed_at)
     pr_gauge.labels(repo.name, pr.id, pr.state).set(pr_age)
 
-def run(GITHUB_TOKEN, GITHUB_ORG_NAME):
+def run():
     "Using Github api to fetch data and then create metric"
 
-    git = Github(GITHUB_TOKEN)
-    org = git.get_organization(GITHUB_ORG_NAME)
+    git = Github(c.GITHUB_TOKEN)
+    org = git.get_organization(c.GITHUB_ORG_NAME)
 
     repos = org.get_repos()
     for repo in repos:
