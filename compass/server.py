@@ -1,4 +1,4 @@
-"Compass Server exposing metrics"
+"Compass Server"
 
 import pr_age
 import logging
