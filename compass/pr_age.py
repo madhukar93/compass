@@ -36,7 +36,7 @@ def run():
     git = Github(c.GITHUB_TOKEN)
     org = git.get_organization(c.GITHUB_ORG_NAME)
 
-    # Clear metric registry i.e. stored local data,
+    # To eleminate closed PRs and deleted repos
     pr_gauge.clear()
 
     repos = org.get_repos()
