@@ -5,6 +5,7 @@ import datetime
 import config as c
 from github import Github
 from prometheus_client import Gauge
+import logging
 
 def get_pr_age_obj():
     "return Gauge object"
@@ -34,6 +35,9 @@ def run():
 
     git = Github(c.GITHUB_TOKEN)
     org = git.get_organization(c.GITHUB_ORG_NAME)
+
+    # Clear metric registry i.e. stored local data,
+    pr_gauge.clear()
 
     repos = org.get_repos()
     for repo in repos:
