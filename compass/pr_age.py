@@ -7,15 +7,10 @@ from github import Github
 from prometheus_client import Gauge
 import logging
 
-def get_pr_age_obj():
-    "return Gauge object"
-    return Gauge('pr_age', 'PR Age matrics', ['repo_name', 'pr_id'])
+pr_gauge = Gauge('pr_age', 'PR Age matrics', ['repo_name', 'pr_id'])
 
-
-pr_gauge = get_pr_age_obj()
-
-def calc_pr_age(created_at):
-    "calculates Age of open/closed PR - Currently wrt Seconds"
+def calculate_pr_age(created_at):
+    "calculates Age of open PR - wrt Seconds"
 
     now = datetime.datetime.now()
     pr_age = now - created_at
@@ -26,12 +21,12 @@ def calc_pr_age(created_at):
 def make_metric(repo, pr):
     "with some labels, set pr's age in gauge metric"
 
-    pr_age = calc_pr_age(pr.created_at)
+    pr_age = calculate_pr_age(pr.created_at)
     pr_gauge.labels(repo.name, pr.id).set(pr_age)
 
 
 def run():
-    "Using Github api to fetch data and then create metric"
+    "Using Github api to info and then create metric"
 
     git = Github(c.GITHUB_TOKEN)
     org = git.get_organization(c.GITHUB_ORG_NAME)
