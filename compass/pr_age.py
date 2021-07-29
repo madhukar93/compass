@@ -10,8 +10,6 @@ import logging
 pr_gauge = Gauge('pr_age', 'PR Age matrics', ['repo_name', 'pr_id'])
 
 def calculate_pr_age(created_at):
-    "calculates Age of open PR - wrt Seconds"
-
     now = datetime.datetime.now()
     pr_age = now - created_at
     pr_age_time = pr_age.total_seconds()

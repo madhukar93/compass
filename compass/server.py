@@ -6,7 +6,6 @@ from prometheus_client import make_wsgi_app
 from wsgiref.simple_server import make_server
 
 
-# app - Need suggestion
 def app(environ, start_response):
     "application to serve metrics"
     pr_age.run()
