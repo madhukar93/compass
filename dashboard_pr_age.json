@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 3,
-  "iteration": 1627292749566,
+  "id": 1,
+  "iteration": 1627534595866,
   "links": [],
   "panels": [
     {
@@ -213,9 +213,13 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
         },
         "datasource": null,
         "definition": "label_values(repo_name)",
@@ -224,7 +228,7 @@
         "hide": 0,
         "includeAll": true,
         "label": "Repository",
-        "multi": false,
+        "multi": true,
         "name": "repository",
         "options": [],
         "query": {
@@ -236,43 +240,16 @@
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
-      },
-      {
-        "allValue": "*",
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
-        "datasource": null,
-        "definition": "label_values(state)",
-        "description": null,
-        "error": null,
-        "hide": 0,
-        "includeAll": true,
-        "label": "State",
-        "multi": false,
-        "name": "state",
-        "options": [],
-        "query": {
-          "query": "label_values(state)",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-7d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "PR Dashboard",
-  "uid": "FAuHu-Wnz",
-  "version": 2
+  "uid": "lf2ViuZnz",
+  "version": 1
 }
