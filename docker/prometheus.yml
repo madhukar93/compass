@@ -29,6 +29,6 @@ scrape_configs:
       - targets: ['localhost:9090']
 
   - job_name: 'compass_exporter'
-    scrape_interval: 1m
+    scrape_interval: 5m
     static_configs:
       - targets: ['gateway.docker.internal:8000']

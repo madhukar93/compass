@@ -8,7 +8,7 @@ services:
     restart: always
     volumes:
       - './prometheus.yml:/etc/prometheus/prometheus.yml'
-      - ./data/prometheus:/data
+      - ./data/prometheus:/prometheus
 
   grafana:
     image: grafana/grafana
@@ -20,5 +20,5 @@ services:
       - prometheus
     volumes:
       - './grafana.ini:/etc/grafana/grafana.ini'
-      - ./grafana_data:/var/lib/grafana
+      - ./data/grafana:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
