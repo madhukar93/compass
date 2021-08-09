@@ -1,0 +1,41 @@
+name: Compass CI
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      IMAGE_TAG_FULL: ${{ steps.image_tag.outputs.IMAGE_TAG_FULL }}
+      IMAGE_TAG_BRANCH: ${{ steps.image_tag.outputs.IMAGE_TAG_BRANCH }}
+      IMAGE: ${{ steps.image_tag.outputs.IMAGE }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: extract branch name and sha
+        shell: bash
+        run: |
+          IMAGE="gcr.io/beecash-prod/infra/compass"
+          BRANCH="${GITHUB_REF#refs/heads/}"
+          SHA="$(git rev-parse --short HEAD)"
+          IMAGE_TAG_BRANCH="$IMAGE:$BRANCH"
+          IMAGE_TAG_FULL="$IMAGE_TAG_BRANCH-$SHA"
+          echo "::set-output name=IMAGE::$IMAGE"
+          echo "::set-output name=IMAGE_TAG_BRANCH::$IMAGE_TAG_BRANCH"
+          echo "::set-output name=IMAGE_TAG_FULL::$IMAGE_TAG_BRANCH-$SHA"
+        id: image_tag
+      - name: docker login
+        uses: 'lagren/docker-gcr-action@master'
+        with:
+          SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_CLOUD_ACCOUNT }}
+          HOST: 'gcr.io'
+      - uses: docker/setup-buildx-action@v1
+      - name: docker build compass image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./docker/Dockerfile
+          push: true
+          tags: "${{ steps.image_tag.outputs.IMAGE_TAG_BRANCH }},${{ steps.image_tag.outputs.IMAGE_TAG_FULL }}"
+          build-args: |
+            production
+          cache-from: type=registry,ref=${{ steps.image_tag.outputs.IMAGE }}:master
+          cache-to: type=inline

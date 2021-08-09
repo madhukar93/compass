@@ -1,5 +1,15 @@
 version: '3'
 services:
+  compass:
+    image: compass-image
+    # environment:
+    #   - GITHUB_TOKEN=
+    #   - GITHUB_ORG_NAME=
+    ports:
+      - '8000:8000'
+    container_name: compass
+    restart: always
+
   prometheus:
     image: prom/prometheus
     ports:
