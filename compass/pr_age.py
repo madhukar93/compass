@@ -1,13 +1,21 @@
-"PR age metric codes"
+"caclulate PR related metrics and expose them as prometheus metrics"
 
-import os
 import datetime
-import config as c
-from github import Github
-from prometheus_client import Gauge
 import logging
+from wsgiref.simple_server import make_server
 
-pr_gauge = Gauge('pr_age', 'PR Age matrics', ['repo_name', 'pr_id'])
+from github_utils import github_client
+from prometheus_client import Gauge, make_wsgi_app
+
+import config
+
+# TODO: how to add prefix to all metrics in the project
+pr_gauge = Gauge(
+    "compass_pr_age",
+    "PR Age metrics",
+    ["repo_name", "pr_id"],
+)
+
 
 def calculate_pr_age(created_at):
     now = datetime.datetime.now()
@@ -26,8 +34,7 @@ def make_metric(repo, pr):
 def run():
     "Using Github api to info and then create metric"
 
-    git = Github(c.GITHUB_TOKEN)
-    org = git.get_organization(c.GITHUB_ORG_NAME)
+    org = github_client.get_organization(config.GITHUB_ORG_NAME)
 
     # To eleminate closed PRs and deleted repos
     pr_gauge.clear()
@@ -38,3 +45,16 @@ def run():
 
         for pr in prs:
             make_metric(repo, pr)
+
+
+def app(environ, start_response):
+    "application to serve metrics"
+    run()
+    wsgi_app = make_wsgi_app()
+    return wsgi_app(environ, start_response)
+
+
+if __name__ == "__main__":
+    logging.info("starting server, PORT: 8000")
+    httpd = make_server("", 8000, app)
+    httpd.serve_forever()

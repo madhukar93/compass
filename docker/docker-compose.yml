@@ -1,16 +1,19 @@
 version: '3'
 services:
   compass:
-    image: compass-image
+    profiles: ["pr_age"]
+    build: .
     # environment:
     #   - GITHUB_TOKEN=
     #   - GITHUB_ORG_NAME=
     ports:
       - '8000:8000'
     container_name: compass
+    command: ["gunicorn", "--reload", "pr_age:app", "--bind", ":8000"]
     restart: always
 
   prometheus:
+    profiles: ["pr_age"]
     image: prom/prometheus
     ports:
       - '9090:9090'
@@ -26,9 +29,30 @@ services:
       - '3000:3000'
     container_name: grafana
     restart: always
-    depends_on:
-      - prometheus
     volumes:
       - './grafana.ini:/etc/grafana/grafana.ini'
       - ./data/grafana:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
+
+  elasticsearch:
+    profiles: ["releases"]
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
+    container_name: elasticsearch
+    hostname: elasticsearch
+    environment:
+      - cluster.name=es-docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+volumes:
+  esdata:
+    driver: local

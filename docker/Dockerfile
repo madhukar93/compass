@@ -1,6 +1,6 @@
 # adapted from https://github.com/michael0liver/python-poetry-docker-example/blob/master/docker/Dockerfile
 
-FROM python:3 as python-base
+FROM python:3.9 as python-base
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=off \
@@ -19,8 +19,8 @@ ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 FROM python-base as builder-base
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
-        curl \
-        build-essential
+    curl \
+    build-essential
 
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
 ENV POETRY_VERSION=1.1.7
@@ -48,16 +48,13 @@ COPY ./compass ./compass
 
 WORKDIR /app/compass
 EXPOSE 8000
-CMD ["gunicorn", "--reload", "server:app", "--bind", ":8000"]
 
 
 FROM python-base as production
 
 COPY --from=builder-base $VENV_PATH $VENV_PATH
-COPY ./docker/gunicorn_conf.py /gunicorn_conf.py
+COPY ./gunicorn_conf.py /gunicorn_conf.py
 
 WORKDIR /app
 COPY ./compass ./compass
 WORKDIR /app/compass
-
-CMD [ "gunicorn", "--config", "/gunicorn_conf.py", "server:app"]

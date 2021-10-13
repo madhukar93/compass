@@ -141,3 +141,7 @@ cython_debug/
 # editors
 .vscode
 .vim
+
+# docker volume Mounts
+docker/data/
+
