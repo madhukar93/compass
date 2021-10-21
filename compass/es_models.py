@@ -66,7 +66,7 @@ class CommitDoc(InnerDoc):
     @classmethod
     def create(cls, commit: Commit.Commit, *args, **kwargs):
         return cls(
-            author=commit.author.email,
+            author=commit.commit.author.email,
             message=commit.commit.message,
             sha=commit.sha,
             timestamp=arrow.get(commit.commit.author.date).datetime,
@@ -89,7 +89,7 @@ class FlattenedCommitDoc(InnerDoc):
     def create(cls, commit: Commit.Commit, *args, **kwargs):
         change_stats = ChangeStatsDoc.create(commit.stats)
         return cls(
-            author=commit.author.email,
+            author=commit.commit.author.email,
             message=commit.commit.message,
             sha=commit.sha,
             timestamp=arrow.get(commit.commit.author.date).datetime,
@@ -127,7 +127,9 @@ class PullRequestDoc(InnerDoc):
             age_seconds=merged_at_utc
             and (
                 merged_at_utc
-                - arrow.get(pull_request.get_commits()[0].commit.author.date).datetime
+                - arrow.get(
+                    pull_request.get_commits()[0].commit.commit.author.date
+                ).datetime
             ).total_seconds(),
             *args,
             **kwargs,
@@ -390,6 +392,7 @@ class FlattenedReleaseDoc(Document):
             change_log=change_doc.change_log,
             **pull_request_fields,
         )
+
 
 if __name__ == "__main__":
     FlattenedReleaseDoc.init()
