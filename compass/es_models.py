@@ -128,7 +128,7 @@ class PullRequestDoc(InnerDoc):
             and (
                 merged_at_utc
                 - arrow.get(
-                    pull_request.get_commits()[0].commit.commit.author.date
+                    pull_request.get_commits()[0].commit.author.date
                 ).datetime
             ).total_seconds(),
             *args,
