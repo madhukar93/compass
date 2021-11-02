@@ -14,8 +14,8 @@ from github_utils import org
 # - asyncio pl0x
 
 
-@kopf.on.update("deployments")
-@kopf.on.update("rollouts")
+@kopf.on.update("deployments", backoff=3600)
+@kopf.on.update("rollouts", backoff=3600)
 def deployment_diff_handler(body, old, new, logger, **kwargs):
     """
     Notify about the deployment update.
